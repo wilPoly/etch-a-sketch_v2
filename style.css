@@ -1,0 +1,13 @@
+.container {
+	width: 960px;
+	height:960px;
+	box-sizing: border-box;
+	border: 1px solid black;
+	display: grid;
+}
+
+.cell {
+	background-color: aqua;
+	box-sizing: border-box;
+	border: 1px solid black;
+	}
