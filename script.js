@@ -7,7 +7,6 @@ const opacityButton = document.querySelector("#opacity");
 const defaultButton = document.querySelector("#default");
 const colorButtons = document.querySelectorAll("#colors > button");
 
-
 function generateGrid(size = DEFAULT_SIZE){
 	if (size > 100) size = MAX_SIZE;
 	let cellNumber = size * size;
@@ -22,28 +21,29 @@ function generateGrid(size = DEFAULT_SIZE){
 }
 
 function draw(event) {
-	if (event.target.className === "cell"){
+	let cell = event.target;
+	if (cell.className === "cell"){
 		if (opacityButton.hasAttribute("disabled")) { // Events don't stack !
-			event.target.style.backgroundColor = updateOpacity(event.target);
+			cell.style.backgroundColor = updateOpacity(cell);
 		}
 		else if (randomButton.hasAttribute("disabled")) {
-			event.target.style.backgroundColor = 
-			`rgba(${randomColor()},${randomColor()},${randomColor()},1)`;
+			cell.style.backgroundColor = 
+			`rgba(${randomColor()},${randomColor()},${randomColor()},0.1)`;
+			cell.style.backgroundColor = updateOpacity(cell);
 		}
 		else {
-			event.target.style.backgroundColor = "rgba(0,0,0,0.1)";
+			cell.style.backgroundColor = "rgba(0,0,0,0.1)";
 		}
 	}
 }
 
 function updateOpacity(element) {
 	let newColor;
-	let opacity;
 	let color = element.style.backgroundColor;
 	let reg = /(?<=\().+(?=\))/g; // captures only the rgba values
 	if (color !== "") {
 		let tempColor = color.match(reg).toString().split(",");
-		opacity = Number(tempColor[3]) + 0.1;
+		let opacity = Number(tempColor[3]) + 0.1;
 		newColor = `rgba(${tempColor[0]},${tempColor[1]},${tempColor[2]},${opacity})`;
 	}
 	return newColor;
@@ -83,8 +83,6 @@ function enableButtons (elements) {
 	})
 }
 
-generateGrid();
-
 container.addEventListener("mouseover", draw);
 
 colorButtons.forEach(button => {
@@ -95,3 +93,5 @@ colorButtons.forEach(button => {
 });
 
 clearButton.addEventListener("click", newGrid);
+
+generateGrid();

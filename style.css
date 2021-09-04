@@ -5,13 +5,3 @@
 	border: 1px solid black;
 	display: grid;
 }
-
-/* .cell {
-	box-sizing: border-box;
-	background-color: aqua;
-	border: 1px solid black;
-	} */
-
-.drawn {
-	background-color: black;
-}
