@@ -37,6 +37,9 @@ function draw(event) {
 	}
 }
 
+// refactor to return only opacity
+// add function getColor(element) => used to change only color
+// can be used to stack opacity and random if selected
 function updateOpacity(element) {
 	let newColor;
 	let color = element.style.backgroundColor;
@@ -47,6 +50,22 @@ function updateOpacity(element) {
 		newColor = `rgba(${tempColor[0]},${tempColor[1]},${tempColor[2]},${opacity})`;
 	}
 	return newColor;
+}
+
+function getColor(element, colorValue) {
+	let color = element.style.backgroundColor;
+	let reg = /(?<=\().+(?=\))/g; // captures only the rgba values
+	let colorArray;
+	if (color !== "") {
+		colorArray = color.match(reg).toString().split(",");
+	}
+	switch (colorValue) {
+		case r: return colorArray[0];
+		case g: return colorArray[1];
+		case b: return colorArray[2];
+		case a: return colorArray[3];
+		default: return "0,0,0,0";
+	}
 }
 
 function newGrid() {
