@@ -42,13 +42,8 @@ function draw(event) {
 // can be used to stack opacity and random if selected
 function updateOpacity(element) {
 	let newColor;
-	let color = element.style.backgroundColor;
-	let reg = /(?<=\().+(?=\))/g; // captures only the rgba values
-	if (color !== "") {
-		let tempColor = color.match(reg).toString().split(",");
-		let opacity = Number(tempColor[3]) + 0.1;
-		newColor = `rgba(${tempColor[0]},${tempColor[1]},${tempColor[2]},${opacity})`;
-	}
+	let newOpacity = Number(getColor(element, "a")) + 0.1;
+	newColor = `rgba(${getColor(element, "hue")},${newOpacity})`;
 	return newColor;
 }
 
@@ -60,10 +55,11 @@ function getColor(element, colorValue) {
 		colorArray = color.match(reg).toString().split(",");
 	}
 	switch (colorValue) {
-		case r: return colorArray[0];
-		case g: return colorArray[1];
-		case b: return colorArray[2];
-		case a: return colorArray[3];
+		case "r": return colorArray[0];
+		case "g": return colorArray[1];
+		case "b": return colorArray[2];
+		case "a": return colorArray[3];
+		case "hue": return `${colorArray[0]},${colorArray[1]},${colorArray[2]}`;
 		default: return "0,0,0,0";
 	}
 }
