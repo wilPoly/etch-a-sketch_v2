@@ -23,13 +23,14 @@ function generateGrid(size = DEFAULT_SIZE){
 function draw(event) {
 	let cell = event.target;
 	if (cell.className === "cell"){
-		if (opacityButton.hasAttribute("disabled")) { // Events don't stack !
-			cell.style.backgroundColor = updateOpacity(cell);
+		if (opacityButton.hasAttribute("disabled")) {
+			let newCOlor = `rgba(${getColor(cell, "hue")}, ${updateOpacity(cell)})`;
+			cell.style.backgroundColor = newCOlor;
+			console.log(newCOlor);
 		}
 		else if (randomButton.hasAttribute("disabled")) {
 			cell.style.backgroundColor = 
-			`rgba(${randomColor()},${randomColor()},${randomColor()},0.1)`;
-			cell.style.backgroundColor = updateOpacity(cell);
+			`rgba(${randomColor()},${randomColor()},${randomColor()},${updateOpacity(cell)})`;
 		}
 		else {
 			cell.style.backgroundColor = "rgba(0,0,0,0.1)";
@@ -37,14 +38,9 @@ function draw(event) {
 	}
 }
 
-// refactor to return only opacity
-// add function getColor(element) => used to change only color
-// can be used to stack opacity and random if selected
 function updateOpacity(element) {
-	let newColor;
-	let newOpacity = Number(getColor(element, "a")) + 0.1;
-	newColor = `rgba(${getColor(element, "hue")},${newOpacity})`;
-	return newColor;
+	let newOpacity = (Number(getColor(element, "a")) + 0.1).toString();
+	return newOpacity;
 }
 
 function getColor(element, colorValue) {
@@ -59,7 +55,8 @@ function getColor(element, colorValue) {
 		case "g": return colorArray[1];
 		case "b": return colorArray[2];
 		case "a": return colorArray[3];
-		case "hue": return `${colorArray[0]},${colorArray[1]},${colorArray[2]}`;
+		case "hue": 
+		return `${colorArray[0]},${colorArray[1]},${colorArray[2]}`;
 		default: return "0,0,0,0";
 	}
 }
